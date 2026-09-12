@@ -11,6 +11,8 @@ dependencies = [
     "alembic>=1.13",
     "fastapi>=0.115",
     "langchain-core>=0.3",
+    "langchain-openai>=0.2",
+    "pdfplumber>=0.11",
     "psycopg[binary]>=3.2",
     "pydantic>=2.8",
     "pydantic-settings>=2.4",
@@ -34,6 +36,10 @@ include = ["app*"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]
+addopts = "-m 'not openai_integration'"
+markers = [
+    "openai_integration: tests that call OpenAI and require OPENAI_API_KEY",
+]
 
 [tool.ruff]
 line-length = 100

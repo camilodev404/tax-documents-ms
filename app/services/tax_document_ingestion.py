@@ -2,14 +2,17 @@ from __future__ import annotations
 
 from collections.abc import Callable, Iterable
 from dataclasses import dataclass
-from decimal import Decimal, InvalidOperation
+from decimal import Decimal
 from pathlib import Path
 
 from sqlalchemy.orm import Session
 
+from app.infrastructure.ai.extractor import ExtractedTaxBracket
+from app.infrastructure.pdf_reader import PdfTextReader
 from app.repositories.tax_bracket_repository import IncomeTaxBracketRepository
-from app.schemas.tax_bracket import ExtractedIncomeTaxBracket, IncomeTaxBracketCreate
-from app.services.tax_document_extractor import PdfDocument, TaxDocumentExtractor
+from app.schemas.tax_bracket import IncomeTaxBracketCreate
+from app.services.tax_bracket_validation import validate_extracted_tax_brackets
+from app.services.tax_document_extractor import TaxDocumentExtractor
 
 SessionFactory = Callable[[], Session]
 
@@ -21,6 +24,7 @@ class DocumentIngestionResult:
     filename: str
     extracted_records: int
     inserted_records: int
+    skipped_records: int
 
 
 @dataclass(frozen=True)
@@ -43,25 +47,16 @@ def discover_pdf_files(input_dir: Path) -> list[Path]:
     )
 
 
-def normalize_income_max(value: Decimal | str) -> Decimal | None:
-    if isinstance(value, str) and value.strip().upper() == "NO_LIMIT":
-        return None
-    return _to_decimal(value, field_name="income_max")
+def normalize_income_max(value: Decimal | None) -> Decimal | None:
+    return value
 
 
-def normalize_tax_rate(value: Decimal | str) -> Decimal:
-    if isinstance(value, str):
-        stripped = value.strip()
-        if stripped.endswith("%"):
-            percentage = _to_decimal(stripped[:-1].strip(), field_name="tax_rate")
-            return (percentage / Decimal("100")).quantize(TAX_RATE_QUANTIZATION)
-        return _to_decimal(stripped, field_name="tax_rate").quantize(TAX_RATE_QUANTIZATION)
-
+def normalize_tax_rate(value: Decimal) -> Decimal:
     return value.quantize(TAX_RATE_QUANTIZATION)
 
 
 def normalize_extracted_bracket(
-    record: ExtractedIncomeTaxBracket,
+    record: ExtractedTaxBracket,
     *,
     source_document: str,
 ) -> IncomeTaxBracketCreate:
@@ -82,10 +77,12 @@ class TaxDocumentIngestionService:
         self,
         *,
         session_factory: SessionFactory,
+        pdf_reader: PdfTextReader,
         extractor: TaxDocumentExtractor,
         repository: IncomeTaxBracketRepository,
     ) -> None:
         self._session_factory = session_factory
+        self._pdf_reader = pdf_reader
         self._extractor = extractor
         self._repository = repository
 
@@ -105,10 +102,15 @@ class TaxDocumentIngestionService:
         return IngestionSummary(processed=processed, failed=failed)
 
     def ingest_file(self, path: Path) -> DocumentIngestionResult:
-        document = PdfDocument(filename=path.name, content=path.read_bytes())
-        extracted_records = self._extractor.extract(document)
+        document = self._pdf_reader.read(path)
+        extraction = self._extractor.extract(
+            text=document.text,
+            source_document=document.filename,
+        )
+        extracted_records = extraction.records
+        validate_extracted_tax_brackets(extracted_records)
         normalized_records = [
-            normalize_extracted_bracket(record, source_document=path.name)
+            normalize_extracted_bracket(record, source_document=document.filename)
             for record in extracted_records
         ]
 
@@ -122,16 +124,8 @@ class TaxDocumentIngestionService:
             session.close()
 
         return DocumentIngestionResult(
-            filename=path.name,
+            filename=document.filename,
             extracted_records=len(extracted_records),
             inserted_records=inserted_records,
+            skipped_records=len(extracted_records) - inserted_records,
         )
-
-
-def _to_decimal(value: Decimal | str, *, field_name: str) -> Decimal:
-    if isinstance(value, Decimal):
-        return value
-    try:
-        return Decimal(value)
-    except (InvalidOperation, ValueError) as exc:
-        raise ValueError(f"Invalid decimal value for {field_name}: {value!r}") from exc

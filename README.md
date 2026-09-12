@@ -5,7 +5,8 @@ Microservicio FastAPI para cargar filas de tramos de impuesto sobre la renta ext
 El flujo de negocio es determinista:
 
 ```text
-PDF -> extracción con LLM -> validación -> normalización -> persistencia
+PDF -> extracción local de texto -> OpenAI con LangChain -> salida estructurada Pydantic
+    -> validación -> normalización -> transacción en PostgreSQL
 ```
 
 No usa LangGraph, agentes, herramientas ni memoria. LangChain queda limitado al adaptador de modelo con salida estructurada.
@@ -27,7 +28,8 @@ Campos:
 - `source_document`: nombre del PDF origen.
 - `created_at`: timestamp generado por la base de datos.
 
-Existe una restricción única sobre `source_document + source_record_id`, por lo que repetir la ingesta no duplica registros.
+Existe una restricción única sobre `source_document + source_record_id`.
+La primera versión usa la estrategia idempotente más simple: omite registros que ya existen para el mismo documento y `record_id`; no reemplaza filas existentes.
 
 ## Convenciones de normalización
 
@@ -44,6 +46,16 @@ source .venv/bin/activate
 pip install -e ".[dev]"
 cp .env.example .env
 ```
+
+Configura OpenAI solo para ejecutar la ingesta:
+
+```env
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-4o-mini
+OPENAI_TEMPERATURE=0
+```
+
+Los endpoints normales de la API no requieren OpenAI para iniciar.
 
 ## Ejecutar PostgreSQL
 
@@ -82,13 +94,21 @@ Coloca los archivos en:
 data/input/
 ```
 
-Ejecuta:
+Para procesar un PDF específico:
+
+```bash
+python -m app.commands.ingest_documents --file data/input/income-tax-brackets-2022.pdf
+```
+
+Para procesar todos los PDFs del directorio de entrada:
 
 ```bash
 python -m app.commands.ingest_documents --input-dir data/input
 ```
 
-El adaptador `LangChainTaxDocumentExtractor` es intencionalmente un placeholder. Para usar IA real falta configurar un proveedor y modelo concretos de LangChain e inyectar un `BaseChatModel`. Sin esa configuración, el comando falla claramente y no intenta inventar extracción.
+El comando valida la ruta, extrae texto localmente con `pdfplumber`, ejecuta OpenAI mediante `ChatOpenAI`, valida todos los registros, normaliza tasas como fracciones decimales y persiste el documento en una sola transacción. Informa registros extraídos, insertados y omitidos.
+
+Si falta `OPENAI_API_KEY` u `OPENAI_MODEL`, la ingesta falla con un error claro. Esa validación ocurre al ejecutar la ingesta, no al importar módulos ni al iniciar endpoints que no usan IA.
 
 ## Docker Compose
 
@@ -106,6 +126,12 @@ http://localhost:8000
 
 ```bash
 pytest
+```
+
+La prueba opcional que llama OpenAI está marcada como `openai_integration` y queda excluida por defecto. Para ejecutarla, configura `OPENAI_API_KEY` y usa:
+
+```bash
+pytest -m openai_integration
 ```
 
 ## Lint y formato

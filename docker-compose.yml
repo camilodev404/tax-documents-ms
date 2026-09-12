@@ -6,8 +6,9 @@ services:
     environment:
       DATABASE_URL: postgresql+psycopg://tax:tax@db:5432/tax_documents
       INPUT_DIR: data/input
-      AI_API_KEY: ${AI_API_KEY:-}
-      AI_MODEL_NAME: ${AI_MODEL_NAME:-}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-}
+      OPENAI_TEMPERATURE: ${OPENAI_TEMPERATURE:-0}
     ports:
       - "8000:8000"
     volumes:

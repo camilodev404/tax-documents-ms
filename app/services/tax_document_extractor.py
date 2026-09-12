@@ -1,15 +1,8 @@
-from dataclasses import dataclass
 from typing import Protocol
 
-from app.schemas.tax_bracket import ExtractedIncomeTaxBracket
-
-
-@dataclass(frozen=True)
-class PdfDocument:
-    filename: str
-    content: bytes
+from app.infrastructure.ai.extractor import ExtractedTaxBrackets
 
 
 class TaxDocumentExtractor(Protocol):
-    def extract(self, document: PdfDocument) -> list[ExtractedIncomeTaxBracket]:
+    def extract(self, *, text: str, source_document: str) -> ExtractedTaxBrackets:
         pass
