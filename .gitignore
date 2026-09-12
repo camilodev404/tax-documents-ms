@@ -10,5 +10,4 @@ venv/
 dist/
 build/
 *.egg-info/
-data/input/*.pdf
 !data/input/.gitkeep
