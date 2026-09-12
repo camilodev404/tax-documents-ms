@@ -10,7 +10,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 class Settings(BaseSettings):
     app_name: str = "tax-document-ms"
-    database_url: str = "postgresql+psycopg://tax:tax@localhost:5432/tax_documents"
+    database_url: str = "postgresql+psycopg://tax_user:local_password@localhost:5432/tax_documents"
     input_dir: Path = Path("data/input")
     openai_api_key: Optional[SecretStr] = None
     openai_model: Optional[str] = None

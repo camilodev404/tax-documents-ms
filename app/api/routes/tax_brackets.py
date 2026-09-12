@@ -15,8 +15,13 @@ router = APIRouter(tags=["tax-brackets"])
 @router.get("/tax-brackets", response_model=list[IncomeTaxBracketResponse])
 def list_tax_brackets(
     tax_year: Annotated[Optional[int], Query(gt=0)] = None,
+    jurisdiction: Annotated[Optional[str], Query(min_length=1, max_length=120)] = None,
     session: Session = Depends(get_db_session),
     service: IncomeTaxBracketService = Depends(get_tax_bracket_service),
 ) -> list[IncomeTaxBracketResponse]:
-    brackets = service.list_brackets(session=session, tax_year=tax_year)
+    brackets = service.list_brackets(
+        session=session,
+        tax_year=tax_year,
+        jurisdiction=jurisdiction,
+    )
     return [IncomeTaxBracketResponse.model_validate(bracket) for bracket in brackets]

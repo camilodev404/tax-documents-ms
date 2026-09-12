@@ -2,9 +2,10 @@ services:
   api:
     build: .
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
-      DATABASE_URL: postgresql+psycopg://tax:tax@db:5432/tax_documents
+      DATABASE_URL: postgresql+psycopg://${POSTGRES_USER:-tax_user}:${POSTGRES_PASSWORD:-local_password}@db:5432/${POSTGRES_DB:-tax_documents}
       INPUT_DIR: data/input
       OPENAI_API_KEY: ${OPENAI_API_KEY:-}
       OPENAI_MODEL: ${OPENAI_MODEL:-}
@@ -18,13 +19,18 @@ services:
   db:
     image: postgres:16
     environment:
-      POSTGRES_DB: tax_documents
-      POSTGRES_USER: tax
-      POSTGRES_PASSWORD: tax
+      POSTGRES_DB: ${POSTGRES_DB:-tax_documents}
+      POSTGRES_USER: ${POSTGRES_USER:-tax_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-local_password}
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
 
 volumes:
   postgres_data:

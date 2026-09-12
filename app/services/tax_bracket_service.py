@@ -15,5 +15,6 @@ class IncomeTaxBracketService:
         *,
         session: Session,
         tax_year: int | None = None,
+        jurisdiction: str | None = None,
     ) -> list[IncomeTaxBracket]:
-        return self._repository.list(session=session, tax_year=tax_year)
+        return self._repository.list(session=session, tax_year=tax_year, jurisdiction=jurisdiction)

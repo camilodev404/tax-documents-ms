@@ -13,6 +13,7 @@ class IncomeTaxBracketRepository:
         session: Session,
         *,
         tax_year: int | None = None,
+        jurisdiction: str | None = None,
     ) -> list[IncomeTaxBracket]:
         statement: Select[tuple[IncomeTaxBracket]] = select(IncomeTaxBracket).order_by(
             IncomeTaxBracket.tax_year,
@@ -21,6 +22,8 @@ class IncomeTaxBracketRepository:
         )
         if tax_year is not None:
             statement = statement.where(IncomeTaxBracket.tax_year == tax_year)
+        if jurisdiction is not None:
+            statement = statement.where(IncomeTaxBracket.jurisdiction == jurisdiction)
 
         return list(session.scalars(statement).all())
 

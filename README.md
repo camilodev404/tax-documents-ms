@@ -47,6 +47,21 @@ pip install -e ".[dev]"
 cp .env.example .env
 ```
 
+Para ejecutar desde el host, usa `localhost` en `DATABASE_URL`:
+
+```env
+POSTGRES_DB=tax_documents
+POSTGRES_USER=tax_user
+POSTGRES_PASSWORD=local_password
+DATABASE_URL=postgresql+psycopg://tax_user:local_password@localhost:5432/tax_documents
+```
+
+Cuando la API corre dentro de Docker Compose, el hostname de PostgreSQL es el servicio `db`:
+
+```env
+DATABASE_URL=postgresql+psycopg://tax_user:local_password@db:5432/tax_documents
+```
+
 Configura OpenAI solo para ejecutar la ingesta:
 
 ```env
@@ -61,12 +76,16 @@ Los endpoints normales de la API no requieren OpenAI para iniciar.
 
 ```bash
 docker compose up -d db
+docker compose ps
 ```
+
+El servicio `db` tiene healthcheck con `pg_isready`.
 
 ## Migrar la base de datos
 
 ```bash
 alembic upgrade head
+alembic current
 ```
 
 ## Ejecutar la API
@@ -124,16 +143,36 @@ Esto levanta PostgreSQL, ejecuta migraciones y publica la API en:
 http://localhost:8000
 ```
 
+Para detener contenedores sin borrar el volumen:
+
+```bash
+docker compose stop
+```
+
 ## Pruebas
 
 ```bash
-pytest
+pytest tests/unit
+pytest tests/integration -m "not openai_integration"
 ```
 
 La prueba opcional que llama OpenAI está marcada como `openai_integration` y queda excluida por defecto. Para ejecutarla, configura `OPENAI_API_KEY` y usa:
 
 ```bash
 pytest -m openai_integration
+```
+
+Para inspeccionar el conteo de registros desde Python:
+
+```bash
+python - <<'PY'
+from sqlalchemy import select, func
+from app.infrastructure.database import create_session
+from app.models.tax_bracket import IncomeTaxBracket
+
+with create_session() as session:
+    print(session.scalar(select(func.count()).select_from(IncomeTaxBracket)))
+PY
 ```
 
 ## Lint y formato
