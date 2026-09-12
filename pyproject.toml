@@ -29,6 +29,7 @@ dev = [
 
 [project.scripts]
 ingest-tax-documents = "app.commands.ingest_documents:main"
+seed-tax-brackets = "app.cli.seed_tax_brackets:main"
 
 [tool.setuptools.packages.find]
 include = ["app*"]

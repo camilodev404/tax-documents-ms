@@ -152,3 +152,77 @@ def test_get_tax_brackets_rejects_invalid_filter(session_factory: sessionmaker[S
         app.dependency_overrides.clear()
 
     assert response.status_code == 422
+
+
+def test_health_returns_ok() -> None:
+    response = TestClient(app).get("/health")
+
+    assert response.status_code == 200
+    assert response.json() == {"status": "ok"}
+
+
+def test_get_tax_brackets_returns_all_real_seeded_records_in_stable_order() -> None:
+    response = TestClient(app).get("/tax-brackets")
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert len(payload) == 50
+    assert payload == sorted(
+        payload,
+        key=lambda record: (
+            record["tax_year"],
+            record["jurisdiction"],
+            Decimal(record["income_min"]),
+            record["source_record_id"],
+        ),
+    )
+    assert payload == TestClient(app).get("/tax-brackets").json()
+    assert {
+        "source_record_id",
+        "tax_year",
+        "jurisdiction",
+        "currency",
+        "income_min",
+        "income_max",
+        "tax_rate",
+        "source_document",
+    }.issubset(payload[0])
+
+
+def test_get_tax_brackets_filters_each_real_year() -> None:
+    client = TestClient(app)
+
+    for year in range(2022, 2027):
+        response = client.get(f"/tax-brackets?tax_year={year}")
+        payload = response.json()
+
+        assert response.status_code == 200
+        assert len(payload) == 10
+        assert all(record["tax_year"] == year for record in payload)
+        assert payload == sorted(
+            payload,
+            key=lambda record: (
+                record["tax_year"],
+                record["jurisdiction"],
+                Decimal(record["income_min"]),
+                record["source_record_id"],
+            ),
+        )
+
+
+def test_get_tax_brackets_real_data_serializes_nulls_and_decimals() -> None:
+    response = TestClient(app).get("/tax-brackets?tax_year=2022")
+    payload = response.json()
+
+    open_ended = [record for record in payload if record["income_max"] is None]
+
+    assert len(open_ended) == 2
+    assert {record["source_record_id"] for record in open_ended} == {5, 10}
+    assert payload[0]["income_min"] == "0.00"
+    assert payload[1]["tax_rate"] == "0.1000"
+
+
+def test_get_tax_brackets_non_numeric_year_returns_422() -> None:
+    response = TestClient(app).get("/tax-brackets?tax_year=not-a-year")
+
+    assert response.status_code == 422

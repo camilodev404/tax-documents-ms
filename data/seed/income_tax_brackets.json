@@ -1,0 +1,502 @@
+[
+  {
+    "source_record_id": 1,
+    "tax_year": 2022,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "0.00",
+    "income_max": "18000.00",
+    "tax_rate": "0.0000",
+    "source_document": "income-tax-brackets-2022.pdf"
+  },
+  {
+    "source_record_id": 2,
+    "tax_year": 2022,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "18000.00",
+    "income_max": "36000.00",
+    "tax_rate": "0.1000",
+    "source_document": "income-tax-brackets-2022.pdf"
+  },
+  {
+    "source_record_id": 3,
+    "tax_year": 2022,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "36000.00",
+    "income_max": "65000.00",
+    "tax_rate": "0.1800",
+    "source_document": "income-tax-brackets-2022.pdf"
+  },
+  {
+    "source_record_id": 4,
+    "tax_year": 2022,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "65000.00",
+    "income_max": "110000.00",
+    "tax_rate": "0.2500",
+    "source_document": "income-tax-brackets-2022.pdf"
+  },
+  {
+    "source_record_id": 5,
+    "tax_year": 2022,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "110000.00",
+    "income_max": null,
+    "tax_rate": "0.3500",
+    "source_document": "income-tax-brackets-2022.pdf"
+  },
+  {
+    "source_record_id": 6,
+    "tax_year": 2022,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "0.00",
+    "income_max": "16000.00",
+    "tax_rate": "0.0000",
+    "source_document": "income-tax-brackets-2022.pdf"
+  },
+  {
+    "source_record_id": 7,
+    "tax_year": 2022,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "16000.00",
+    "income_max": "34000.00",
+    "tax_rate": "0.0900",
+    "source_document": "income-tax-brackets-2022.pdf"
+  },
+  {
+    "source_record_id": 8,
+    "tax_year": 2022,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "34000.00",
+    "income_max": "68000.00",
+    "tax_rate": "0.1700",
+    "source_document": "income-tax-brackets-2022.pdf"
+  },
+  {
+    "source_record_id": 9,
+    "tax_year": 2022,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "68000.00",
+    "income_max": "115000.00",
+    "tax_rate": "0.2600",
+    "source_document": "income-tax-brackets-2022.pdf"
+  },
+  {
+    "source_record_id": 10,
+    "tax_year": 2022,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "115000.00",
+    "income_max": null,
+    "tax_rate": "0.3400",
+    "source_document": "income-tax-brackets-2022.pdf"
+  },
+  {
+    "source_record_id": 1,
+    "tax_year": 2023,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "0.00",
+    "income_max": "18500.00",
+    "tax_rate": "0.0000",
+    "source_document": "income-tax-brackets-2023.pdf"
+  },
+  {
+    "source_record_id": 2,
+    "tax_year": 2023,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "18500.00",
+    "income_max": "37000.00",
+    "tax_rate": "0.1000",
+    "source_document": "income-tax-brackets-2023.pdf"
+  },
+  {
+    "source_record_id": 3,
+    "tax_year": 2023,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "37000.00",
+    "income_max": "67000.00",
+    "tax_rate": "0.1800",
+    "source_document": "income-tax-brackets-2023.pdf"
+  },
+  {
+    "source_record_id": 4,
+    "tax_year": 2023,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "67000.00",
+    "income_max": "113000.00",
+    "tax_rate": "0.2500",
+    "source_document": "income-tax-brackets-2023.pdf"
+  },
+  {
+    "source_record_id": 5,
+    "tax_year": 2023,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "113000.00",
+    "income_max": null,
+    "tax_rate": "0.3500",
+    "source_document": "income-tax-brackets-2023.pdf"
+  },
+  {
+    "source_record_id": 6,
+    "tax_year": 2023,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "0.00",
+    "income_max": "16500.00",
+    "tax_rate": "0.0000",
+    "source_document": "income-tax-brackets-2023.pdf"
+  },
+  {
+    "source_record_id": 7,
+    "tax_year": 2023,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "16500.00",
+    "income_max": "35000.00",
+    "tax_rate": "0.0900",
+    "source_document": "income-tax-brackets-2023.pdf"
+  },
+  {
+    "source_record_id": 8,
+    "tax_year": 2023,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "35000.00",
+    "income_max": "70000.00",
+    "tax_rate": "0.1700",
+    "source_document": "income-tax-brackets-2023.pdf"
+  },
+  {
+    "source_record_id": 9,
+    "tax_year": 2023,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "70000.00",
+    "income_max": "118000.00",
+    "tax_rate": "0.2600",
+    "source_document": "income-tax-brackets-2023.pdf"
+  },
+  {
+    "source_record_id": 10,
+    "tax_year": 2023,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "118000.00",
+    "income_max": null,
+    "tax_rate": "0.3400",
+    "source_document": "income-tax-brackets-2023.pdf"
+  },
+  {
+    "source_record_id": 1,
+    "tax_year": 2024,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "0.00",
+    "income_max": "19000.00",
+    "tax_rate": "0.0000",
+    "source_document": "income-tax-brackets-2024.pdf"
+  },
+  {
+    "source_record_id": 2,
+    "tax_year": 2024,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "19000.00",
+    "income_max": "38000.00",
+    "tax_rate": "0.1000",
+    "source_document": "income-tax-brackets-2024.pdf"
+  },
+  {
+    "source_record_id": 3,
+    "tax_year": 2024,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "38000.00",
+    "income_max": "69000.00",
+    "tax_rate": "0.1800",
+    "source_document": "income-tax-brackets-2024.pdf"
+  },
+  {
+    "source_record_id": 4,
+    "tax_year": 2024,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "69000.00",
+    "income_max": "116000.00",
+    "tax_rate": "0.2500",
+    "source_document": "income-tax-brackets-2024.pdf"
+  },
+  {
+    "source_record_id": 5,
+    "tax_year": 2024,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "116000.00",
+    "income_max": null,
+    "tax_rate": "0.3500",
+    "source_document": "income-tax-brackets-2024.pdf"
+  },
+  {
+    "source_record_id": 6,
+    "tax_year": 2024,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "0.00",
+    "income_max": "17000.00",
+    "tax_rate": "0.0000",
+    "source_document": "income-tax-brackets-2024.pdf"
+  },
+  {
+    "source_record_id": 7,
+    "tax_year": 2024,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "17000.00",
+    "income_max": "36000.00",
+    "tax_rate": "0.0900",
+    "source_document": "income-tax-brackets-2024.pdf"
+  },
+  {
+    "source_record_id": 8,
+    "tax_year": 2024,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "36000.00",
+    "income_max": "72000.00",
+    "tax_rate": "0.1700",
+    "source_document": "income-tax-brackets-2024.pdf"
+  },
+  {
+    "source_record_id": 9,
+    "tax_year": 2024,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "72000.00",
+    "income_max": "121000.00",
+    "tax_rate": "0.2600",
+    "source_document": "income-tax-brackets-2024.pdf"
+  },
+  {
+    "source_record_id": 10,
+    "tax_year": 2024,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "121000.00",
+    "income_max": null,
+    "tax_rate": "0.3400",
+    "source_document": "income-tax-brackets-2024.pdf"
+  },
+  {
+    "source_record_id": 1,
+    "tax_year": 2025,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "0.00",
+    "income_max": "19500.00",
+    "tax_rate": "0.0000",
+    "source_document": "income-tax-brackets-2025.pdf"
+  },
+  {
+    "source_record_id": 2,
+    "tax_year": 2025,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "19500.00",
+    "income_max": "39000.00",
+    "tax_rate": "0.1000",
+    "source_document": "income-tax-brackets-2025.pdf"
+  },
+  {
+    "source_record_id": 3,
+    "tax_year": 2025,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "39000.00",
+    "income_max": "71000.00",
+    "tax_rate": "0.1800",
+    "source_document": "income-tax-brackets-2025.pdf"
+  },
+  {
+    "source_record_id": 4,
+    "tax_year": 2025,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "71000.00",
+    "income_max": "119000.00",
+    "tax_rate": "0.2500",
+    "source_document": "income-tax-brackets-2025.pdf"
+  },
+  {
+    "source_record_id": 5,
+    "tax_year": 2025,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "119000.00",
+    "income_max": null,
+    "tax_rate": "0.3500",
+    "source_document": "income-tax-brackets-2025.pdf"
+  },
+  {
+    "source_record_id": 6,
+    "tax_year": 2025,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "0.00",
+    "income_max": "17500.00",
+    "tax_rate": "0.0000",
+    "source_document": "income-tax-brackets-2025.pdf"
+  },
+  {
+    "source_record_id": 7,
+    "tax_year": 2025,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "17500.00",
+    "income_max": "37000.00",
+    "tax_rate": "0.0900",
+    "source_document": "income-tax-brackets-2025.pdf"
+  },
+  {
+    "source_record_id": 8,
+    "tax_year": 2025,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "37000.00",
+    "income_max": "74000.00",
+    "tax_rate": "0.1700",
+    "source_document": "income-tax-brackets-2025.pdf"
+  },
+  {
+    "source_record_id": 9,
+    "tax_year": 2025,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "74000.00",
+    "income_max": "124000.00",
+    "tax_rate": "0.2600",
+    "source_document": "income-tax-brackets-2025.pdf"
+  },
+  {
+    "source_record_id": 10,
+    "tax_year": 2025,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "124000.00",
+    "income_max": null,
+    "tax_rate": "0.3400",
+    "source_document": "income-tax-brackets-2025.pdf"
+  },
+  {
+    "source_record_id": 1,
+    "tax_year": 2026,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "0.00",
+    "income_max": "20000.00",
+    "tax_rate": "0.0000",
+    "source_document": "income-tax-brackets-2026.pdf"
+  },
+  {
+    "source_record_id": 2,
+    "tax_year": 2026,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "20000.00",
+    "income_max": "40000.00",
+    "tax_rate": "0.1000",
+    "source_document": "income-tax-brackets-2026.pdf"
+  },
+  {
+    "source_record_id": 3,
+    "tax_year": 2026,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "40000.00",
+    "income_max": "73000.00",
+    "tax_rate": "0.1800",
+    "source_document": "income-tax-brackets-2026.pdf"
+  },
+  {
+    "source_record_id": 4,
+    "tax_year": 2026,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "73000.00",
+    "income_max": "122000.00",
+    "tax_rate": "0.2500",
+    "source_document": "income-tax-brackets-2026.pdf"
+  },
+  {
+    "source_record_id": 5,
+    "tax_year": 2026,
+    "jurisdiction": "North Region",
+    "currency": "USD",
+    "income_min": "122000.00",
+    "income_max": null,
+    "tax_rate": "0.3500",
+    "source_document": "income-tax-brackets-2026.pdf"
+  },
+  {
+    "source_record_id": 6,
+    "tax_year": 2026,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "0.00",
+    "income_max": "18000.00",
+    "tax_rate": "0.0000",
+    "source_document": "income-tax-brackets-2026.pdf"
+  },
+  {
+    "source_record_id": 7,
+    "tax_year": 2026,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "18000.00",
+    "income_max": "38000.00",
+    "tax_rate": "0.0900",
+    "source_document": "income-tax-brackets-2026.pdf"
+  },
+  {
+    "source_record_id": 8,
+    "tax_year": 2026,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "38000.00",
+    "income_max": "76000.00",
+    "tax_rate": "0.1700",
+    "source_document": "income-tax-brackets-2026.pdf"
+  },
+  {
+    "source_record_id": 9,
+    "tax_year": 2026,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "76000.00",
+    "income_max": "127000.00",
+    "tax_rate": "0.2600",
+    "source_document": "income-tax-brackets-2026.pdf"
+  },
+  {
+    "source_record_id": 10,
+    "tax_year": 2026,
+    "jurisdiction": "South Region",
+    "currency": "USD",
+    "income_min": "127000.00",
+    "income_max": null,
+    "tax_rate": "0.3400",
+    "source_document": "income-tax-brackets-2026.pdf"
+  }
+]

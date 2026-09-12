@@ -50,12 +50,14 @@ def main() -> int:
     summary = service.ingest_files([args.file]) if args.file else service.ingest_all(input_dir)
     for result in summary.processed:
         logger.info(
-            "Processed %s: extracted=%s valid=%s inserted=%s skipped=%s",
+            "Processed %s: status=%s extracted=%s valid=%s inserted=%s skipped=%s reason=%s",
             result.filename,
+            result.status,
             result.extracted_records,
             result.valid_records,
             result.inserted_records,
             result.skipped_records,
+            result.reason,
         )
 
     for failure in summary.failed:

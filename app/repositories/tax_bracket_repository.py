@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from sqlalchemy import Select, select, tuple_
+from sqlalchemy import Select, func, select, tuple_
 from sqlalchemy.orm import Session
 
 from app.models.tax_bracket import IncomeTaxBracket
@@ -8,6 +8,19 @@ from app.schemas.tax_bracket import IncomeTaxBracketCreate
 
 
 class IncomeTaxBracketRepository:
+    def count_by_source_document(
+        self,
+        session: Session,
+        *,
+        source_document: str,
+    ) -> int:
+        statement = (
+            select(func.count())
+            .select_from(IncomeTaxBracket)
+            .where(IncomeTaxBracket.source_document == source_document)
+        )
+        return int(session.scalar(statement) or 0)
+
     def list(
         self,
         session: Session,
@@ -19,6 +32,7 @@ class IncomeTaxBracketRepository:
             IncomeTaxBracket.tax_year,
             IncomeTaxBracket.jurisdiction,
             IncomeTaxBracket.income_min,
+            IncomeTaxBracket.source_record_id,
         )
         if tax_year is not None:
             statement = statement.where(IncomeTaxBracket.tax_year == tax_year)

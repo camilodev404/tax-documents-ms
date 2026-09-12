@@ -83,9 +83,13 @@ def test_repository_reads_by_year_and_jurisdiction_and_preserves_decimals(
     scoped_by_year = [record for record in by_year if record.source_document == source_document]
 
     assert len(scoped_by_year) == 2
-    assert len(by_jurisdiction) == 1
-    assert by_jurisdiction[0].income_max is None
-    assert by_jurisdiction[0].tax_rate == Decimal("0.1000")
+    scoped_by_jurisdiction = [
+        record for record in by_jurisdiction if record.source_document == source_document
+    ]
+
+    assert len(scoped_by_jurisdiction) == 1
+    assert scoped_by_jurisdiction[0].income_max is None
+    assert scoped_by_jurisdiction[0].tax_rate == Decimal("0.1000")
 
 
 def test_database_unique_constraint_rejects_duplicate_source_record(

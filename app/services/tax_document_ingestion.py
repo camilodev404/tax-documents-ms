@@ -22,10 +22,12 @@ TAX_RATE_QUANTIZATION = Decimal("0.0001")
 @dataclass(frozen=True)
 class DocumentIngestionResult:
     filename: str
+    status: str
     extracted_records: int
     valid_records: int
     inserted_records: int
     skipped_records: int
+    reason: str | None = None
 
 
 @dataclass(frozen=True)
@@ -103,6 +105,18 @@ class TaxDocumentIngestionService:
         return IngestionSummary(processed=processed, failed=failed)
 
     def ingest_file(self, path: Path) -> DocumentIngestionResult:
+        existing_records = self._count_existing_records(path.name)
+        if existing_records > 0:
+            return DocumentIngestionResult(
+                filename=path.name,
+                status="skipped",
+                extracted_records=0,
+                valid_records=0,
+                inserted_records=0,
+                skipped_records=existing_records,
+                reason="source_document_already_processed",
+            )
+
         document = self._pdf_reader.read(path)
         extraction = self._extractor.extract(
             text=document.text,
@@ -126,8 +140,19 @@ class TaxDocumentIngestionService:
 
         return DocumentIngestionResult(
             filename=document.filename,
+            status="processed",
             extracted_records=len(extracted_records),
             valid_records=len(normalized_records),
             inserted_records=inserted_records,
             skipped_records=len(extracted_records) - inserted_records,
         )
+
+    def _count_existing_records(self, source_document: str) -> int:
+        session = self._session_factory()
+        try:
+            return self._repository.count_by_source_document(
+                session,
+                source_document=source_document,
+            )
+        finally:
+            session.close()
