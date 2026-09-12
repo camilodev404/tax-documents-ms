@@ -684,7 +684,7 @@ Important limitations:
 
 ### Current Demonstration Deployment
 
-The EC2 demonstration deployment has not yet been completed in this repository. Do not treat the following placeholders as a live deployment:
+Do not treat the following placeholders as a live deployment:
 
 - API: `http://<PUBLIC_IP>:8000/tax-brackets`
 - Swagger UI: `http://<PUBLIC_IP>:8000/docs`
