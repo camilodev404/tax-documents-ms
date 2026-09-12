@@ -686,11 +686,9 @@ Important limitations:
 
 The EC2 demonstration deployment has not yet been completed in this repository. Do not treat the following placeholders as a live deployment:
 
-- API: `http://<EC2_PUBLIC_IP>:8000/tax-brackets`
-- Swagger UI: `http://<EC2_PUBLIC_IP>:8000/docs`
-- Health check: `http://<EC2_PUBLIC_IP>:8000/health`
-
-> Replace `<EC2_PUBLIC_IP>` with the final public address after deployment.
+- API: `http://<PUBLIC_IP>:8000/tax-brackets`
+- Swagger UI: `http://<PUBLIC_IP>:8000/docs`
+- Health check: `http://<PUBLIC_IP>:8000/health`
 
 Intended demonstration topology:
 
