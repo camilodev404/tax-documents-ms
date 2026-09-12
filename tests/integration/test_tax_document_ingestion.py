@@ -82,8 +82,10 @@ def test_ingestion_is_idempotent_for_same_document(
         count = len(session.scalars(select(IncomeTaxBracket)).all())
 
     assert first.inserted_records == 2
+    assert first.valid_records == 2
     assert first.skipped_records == 0
     assert second.inserted_records == 0
+    assert second.valid_records == 2
     assert second.skipped_records == 2
     assert count == 2
 

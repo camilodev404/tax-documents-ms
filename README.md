@@ -110,6 +110,8 @@ El comando valida la ruta, extrae texto localmente con `pdfplumber`, ejecuta Ope
 
 Si falta `OPENAI_API_KEY` u `OPENAI_MODEL`, la ingesta falla con un error claro. Esa validación ocurre al ejecutar la ingesta, no al importar módulos ni al iniciar endpoints que no usan IA.
 
+Para modelos `gpt-5*`, el adaptador omite el parámetro `temperature` y usa el valor por defecto del proveedor, porque esa familia puede rechazar temperaturas configurables.
+
 ## Docker Compose
 
 ```bash

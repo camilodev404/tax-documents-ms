@@ -23,6 +23,7 @@ TAX_RATE_QUANTIZATION = Decimal("0.0001")
 class DocumentIngestionResult:
     filename: str
     extracted_records: int
+    valid_records: int
     inserted_records: int
     skipped_records: int
 
@@ -126,6 +127,7 @@ class TaxDocumentIngestionService:
         return DocumentIngestionResult(
             filename=document.filename,
             extracted_records=len(extracted_records),
+            valid_records=len(normalized_records),
             inserted_records=inserted_records,
             skipped_records=len(extracted_records) - inserted_records,
         )

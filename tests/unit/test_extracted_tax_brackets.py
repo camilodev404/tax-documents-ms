@@ -28,6 +28,22 @@ def test_structured_response_model_accepts_valid_records() -> None:
     assert record.tax_rate == Decimal("0.10")
 
 
+def test_structured_response_model_converts_json_numbers_to_decimal() -> None:
+    record = ExtractedTaxBracket(
+        source_record_id=1,
+        tax_year=2022,
+        jurisdiction="US Federal",
+        currency="USD",
+        income_min=0,
+        income_max=18000.0,
+        tax_rate=0.1,
+    )
+
+    assert record.income_min == Decimal("0")
+    assert record.income_max == Decimal("18000.0")
+    assert record.tax_rate == Decimal("0.1")
+
+
 def test_rejects_invalid_currency() -> None:
     with pytest.raises(ValidationError):
         ExtractedTaxBracket(

@@ -37,7 +37,7 @@ class ExtractedTaxBracket(BaseModel):
         if value is None:
             return None
         if isinstance(value, float):
-            raise TypeError("Use Decimal or string input, never float")
+            return Decimal(str(value))
         if isinstance(value, str):
             stripped = value.strip()
             if stripped.upper() == "NO_LIMIT":

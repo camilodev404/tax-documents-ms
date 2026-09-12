@@ -34,7 +34,11 @@ class LangChainTaxDocumentExtractor:
         model = self._model or self._build_model()
 
         try:
-            structured_model = model.with_structured_output(ExtractedTaxBrackets)
+            structured_model = model.with_structured_output(
+                ExtractedTaxBrackets,
+                method="json_schema",
+                strict=True,
+            )
             response: Any = structured_model.invoke(
                 [
                     SystemMessage(content=_SYSTEM_PROMPT),
@@ -48,9 +52,14 @@ class LangChainTaxDocumentExtractor:
                 ]
             )
         except Exception as exc:
-            logger.exception("Tax document extraction provider failed for %s", source_document)
+            sanitized_error = _sanitize_provider_error(exc)
+            logger.error(
+                "Tax document extraction provider failed for %s: %s",
+                source_document,
+                sanitized_error,
+            )
             raise TaxDocumentExtractionError(
-                f"Tax document extraction failed for {source_document}"
+                f"Tax document extraction failed for {source_document}: {sanitized_error}"
             ) from exc
 
         return ExtractedTaxBrackets.model_validate(response)
@@ -77,11 +86,27 @@ class LangChainTaxDocumentExtractor:
             if isinstance(self._api_key, SecretStr)
             else self._api_key
         )
-        return ChatOpenAI(
-            api_key=secret,
-            model=self._model_name,
-            temperature=self._temperature,
-        )
+        model_kwargs: dict[str, Any] = {
+            "api_key": secret,
+            "model": self._model_name,
+            "max_retries": 0,
+        }
+        if self._model_name.lower().startswith("gpt-5"):
+            # This langchain-openai version defaults temperature to 0.7 when omitted.
+            # GPT-5 family models may reject that, so use a wrapper that removes it
+            # from the request payload and keeps the provider default.
+            class TemperatureOmittingChatOpenAI(ChatOpenAI):
+                @property
+                def _default_params(self) -> dict[str, Any]:
+                    params = super()._default_params
+                    params.pop("temperature", None)
+                    return params
+
+            return TemperatureOmittingChatOpenAI(**model_kwargs)
+        else:
+            model_kwargs["temperature"] = self._temperature
+
+        return ChatOpenAI(**model_kwargs)
 
 
 _SYSTEM_PROMPT = """
@@ -100,3 +125,16 @@ Rules:
 - Ignore and do not output malformed text such as source/nepk? if encountered.
 - Do not generate id, created_at, or source_document.
 """.strip()
+
+
+def _sanitize_provider_error(exc: Exception) -> str:
+    status_code = getattr(exc, "status_code", None)
+    code = getattr(exc, "code", None)
+    message = str(exc)
+    parts = [exc.__class__.__name__]
+    if status_code is not None:
+        parts.append(f"status={status_code}")
+    if code is not None:
+        parts.append(f"code={code}")
+    parts.append(f"message={message}")
+    return " ".join(parts)
